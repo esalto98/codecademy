@@ -73,9 +73,31 @@ const findInvalidCards = (arr) => {
 
 //console.log(validateCred(invalid1));
 
-console.log(findInvalidCards(batch));
+//console.log(findInvalidCards(batch));
 
 //testing mystery arr to check if function above works
 //  console.log(validateCred(mystery1));
 //  console.log(validateCred(mystery3));
 //  console.log(validateCred(mystery4));
+
+const idInvalidCardCompanies = (arr) => {
+  const companies = {
+    3: "Amex",
+    4: "Visa",
+    5: "Mastercard",
+    6: "Discover",
+  };
+  const invalidCompanies = [];
+
+  for (let i = 0; i < arr.length; ++i) {
+    let companyID = companies[arr[i][0]]; // company id# refer above for name
+    //if not it invalid company arr than add
+    if (invalidCompanies.indexOf(companyID) === -1) {
+      invalidCompanies.push(companyID);
+    }
+  }
+  return invalidCompanies;
+};
+const invalidCards = findInvalidCards(batch);
+//test invalid companies func
+console.log(idInvalidCardCompanies(invalidCards));
