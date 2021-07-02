@@ -12,7 +12,7 @@ app.get("/api/quotes/random", (_req, res) => {
   const randomQuote = getRandomElement(quotes);
 
   res.send({
-    quote:  randomQuote 
+    quote: randomQuote,
   });
 });
 
@@ -37,23 +37,28 @@ app.get("/api/quotes", (req, res) => {
 app.post("/api/quotes", (req, res) => {
   const person = req.query.person;
   const quote = req.query.quote;
-  if (!person || !quote)
-  {
-    res.status(400).send()
+  if (!person || !quote) {
+    res.status(400).send();
   } else {
     const newQuote = {
+      id: quotes.length + 1,
       quote: quote,
-      person: person
-    }
+      person: person,
+    };
     quotes.push(newQuote);
     res.send({
       quote: newQuote,
     });
-    }
-  
-  
+  }
 });
 
-
+app.delete("/api/quotes", (req, res) => {
+  const id = Number(req.query.id);
+  if (id <= quotes.length + 1 && id > 0) {
+    res.send(quotes.splice(id - 1, 1));
+  } else {
+    res.status(400).send();
+  }
+});
 
 app.listen(PORT);
