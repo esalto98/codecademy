@@ -1,9 +1,10 @@
 const prompt = require('prompt-sync')({sigint: true});
+var term = require( 'terminal-kit' ).terminal ;
 
 const hat = '^';
-const hole = 'O';
+const hole = term.str.red('O');
 const fieldCharacter = '░';
-const pathCharacter = '*';
+const pathCharacter = term.str.bgGreen('*');
 
 
 class Field {
@@ -17,20 +18,21 @@ class Field {
 
   runGame(){
     let playing = true;
+    
       while (playing) {
           this.print();
           this.askMove();
           if (!this.isInBounds())
           {
-              console.log('Out of bounds instruction!')
+              term.red('Out of Bounds Instruction!');
               playing = false;
               break;
           } else if(this.field[this.locationY][this.locationX] === hole) {
-              console.log('oops you fell in a hole!')
+              term.yellow('oops you fell in a hole!')
               playing = false;
               break;
           } else if (this.field[this.locationY][this.locationX] === hat) {
-              console.log('You found the hat, you win!!')
+              term.green('You found the hat, you win!!')
               playing = false;
               break;
           }
@@ -40,7 +42,7 @@ class Field {
   }
 
   askMove() {
-  const move = prompt('Which way?').toUpperCase();
+  const move = prompt(term.green('Which way?')).toUpperCase();
   switch(move){
       case 'U':
           this.locationY -= 1;
